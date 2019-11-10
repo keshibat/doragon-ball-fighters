@@ -15,6 +15,10 @@ class App extends Component {
   }
 
   render() {
+    const { fighters, searchField } = this.state;
+    const filterdFighters = fighters.filter(fighter =>
+      fighter.name.toLowerCase().includes(searchField.toLowerCase())
+    );
     return (
       <div className="App">
         <input
@@ -22,7 +26,7 @@ class App extends Component {
           placeholder="search fighters"
           onChange={e => this.setState({ searchField: e.target.value })}
         />
-        <CardList fighters={this.state.fighters}></CardList>
+        <CardList fighters={filterdFighters}></CardList>
       </div>
     );
   }
