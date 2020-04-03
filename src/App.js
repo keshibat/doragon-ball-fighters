@@ -1,12 +1,25 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { CardList } from "./components/card-list/card-list.component";
 import { SearchBox } from "./components/search-box/search-box.component";
 import "./App.css";
+import { setSearchField } from "./action";
+
+const mapStateToProps = state => {
+  return {
+    searchField: state.searchField
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+     onSearchChange: (event) => dispatch(setSearchField(event.target.value))
+  }
+}
 
 class App extends Component {
   state = {
     fighters: [],
-    searchField: ""
   };
 
   componentDidMount() {
@@ -15,21 +28,18 @@ class App extends Component {
       .then(users => this.setState({ fighters: users }));
   }
 
-  handleChange = e => {
-    this.setState({ searchField: e.target.value });
-  };
-
   render() {
-    const { fighters, searchField } = this.state;
+    const { fighters } = this.state;
+    const { searchFiled, onSearchChange } = this.props;
     const filterdFighters = fighters.filter(fighter =>
-      fighter.name.toLowerCase().includes(searchField.toLowerCase())
+      fighter.name.toLowerCase().includes(searchFiled.toLowerCase())
     );
     return (
       <div className="App">
         <h1>Doragon Ball Fighters</h1>
         <SearchBox
           placeholder="search fighters"
-          handleChange={this.handleChange}
+          handleChange={onSearchChange}
         />
 
         <CardList fighters={filterdFighters}></CardList>
@@ -38,4 +48,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
