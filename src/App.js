@@ -8,7 +8,7 @@ import { setSearchField } from "./action";
 const mapStateToProps = state => {
   return {
     searchField: state.searchField
-  }
+  };
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -30,9 +30,9 @@ class App extends Component {
 
   render() {
     const { fighters } = this.state;
-    const { searchFiled, onSearchChange } = this.props;
+    const { searchField, onSearchChange } = this.props;
     const filterdFighters = fighters.filter(fighter =>
-      fighter.name.toLowerCase().includes(searchFiled.toLowerCase())
+      fighter.name.toLowerCase().includes(searchField.toLowerCase())
     );
     return (
       <div className="App">
